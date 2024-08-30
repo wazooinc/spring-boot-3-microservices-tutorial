@@ -1,0 +1,26 @@
+
+server:
+  port: 9090
+  
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: armor-service
+          uri: lb://armor-microservice
+          predicates:
+            - Path=/api/v1/armors/**
+        - id: weapon-service
+          uri: lb://weapon-microservice
+          predicates:
+            - Path=/api/v1/weapons/**
